@@ -10,7 +10,7 @@ type Node struct {
 type LinkedList struct {
 	Head *Node
 }
-
+//создание списка с определённым числом узлов
 func New(q int) *LinkedList {
 	First := Node{}
 	NewM := &First
@@ -22,7 +22,7 @@ func New(q int) *LinkedList {
 	Link.Head = &First
 	return &Link
 }
-
+//добавление в конец списка узла с определённым значением 
 func (l *LinkedList) Add(val int) {
 	NewM := l.Head
 	for i := 0; i >= 0; {
@@ -33,6 +33,7 @@ func (l *LinkedList) Add(val int) {
 		NewM = NewM.Next
 	}
 }
+//удаление из конца списка
 func (l *LinkedList) Pop() {
 	NewM := l.Head
 	Previ := l.Head
@@ -45,7 +46,7 @@ func (l *LinkedList) Pop() {
 		NewM = NewM.Next
 	}
 }
-
+//вернуть количество узлов списка
 func (l *LinkedList) Size() int {
 	NewM := l.Head
 	i := 0
@@ -58,7 +59,7 @@ func (l *LinkedList) Size() int {
 	}
 	return i + 1
 }
-
+//вернуть значение определённого узла
 func (l *LinkedList) At(pos int) int {
 	NewM := l.Head
 	at := 0
@@ -75,7 +76,7 @@ func (l *LinkedList) At(pos int) int {
 	}
 	return at
 }
-
+//удалить определенный узел
 func (l *LinkedList) DeleteFrom(pos int) {
 	NewM := l.Head
 	Previ := l.Head
@@ -92,7 +93,7 @@ func (l *LinkedList) DeleteFrom(pos int) {
 		NewM = NewM.Next
 	}
 }
-
+//изменить значение определённого узла
 func (l *LinkedList) UpdateAt(val, pos int) {
 	NewM := l.Head
 	for i := 0; i < pos; i++ {
@@ -107,7 +108,7 @@ func (l *LinkedList) UpdateAt(val, pos int) {
 		NewM = NewM.Next
 	}
 }
-
+//создать список из слайса
 func NewFromSlice(s []int) *LinkedList {
 	First := Node{s[0], nil}
 	NewM := &First
