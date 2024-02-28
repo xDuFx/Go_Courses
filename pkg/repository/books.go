@@ -43,11 +43,21 @@ func (repo *PGRepo) NewBook(item models.Book) error {
 }
 func (repo *PGRepo) NewAuthor(name string) error {
 	_, err := repo.pool.Exec(context.Background(), `
-	INSERT INTO authors(name)
+	INSERT INTO authors(author)
     VALUES ($1);`,
 		name,
 	)
 	return err
+}
+
+func (repo *PGRepo) NewGenre(name string) (id int, err error) {
+	err = repo.pool.QueryRow(context.Background(), `
+	INSERT INTO genres(genre)
+	VALUES ($1)
+	returning id;`,
+		name,
+	).Scan(&id)
+	return id, err
 }
 
 func (repo *PGRepo) GetID(id int) (models.Book, error) {
@@ -91,6 +101,30 @@ FROM authors;`,
 		err := rows.Scan(
 			&item.ID,
 			&item.Name,
+		)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, item)
+	}
+	return data, nil
+}
+
+func (repo *PGRepo) GetGenres() ([]models.Genre, error) {
+	rows, err := repo.pool.Query(context.Background(), `
+		    SELECT id, genre
+FROM genres;`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var data []models.Genre
+	for rows.Next() {
+		var item models.Genre
+		err := rows.Scan(
+			&item.ID,
+			&item.Genre,
 		)
 		if err != nil {
 			return nil, err

@@ -37,7 +37,7 @@ func (api *api) books(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (api *api) authorNew(w http.ResponseWriter, r *http.Request) {
+func (api *api) author(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
 		name_author := mux.Vars(r)
@@ -58,6 +58,42 @@ func (api *api) authorNew(w http.ResponseWriter, r *http.Request) {
 		}
 	case http.MethodGet:
 		data, err := api.db.GetAuthors()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+	}
+
+}
+
+func (api *api) genre(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		name_genre := mux.Vars(r)
+		name, ok := name_genre["name"]
+		if !ok {
+			http.Error(w, "No parameter", http.StatusInternalServerError)
+			return
+		}
+		id, err := api.db.NewGenre(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+	case http.MethodGet:
+		data, err := api.db.GetGenres()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

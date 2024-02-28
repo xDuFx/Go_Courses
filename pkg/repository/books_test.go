@@ -22,15 +22,15 @@ func Test_BooksCRUD(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	data, err = db.GetBooks()
-	if err != nil || lenght == len(data) {
-		t.Fatal(err.Error())
-	}
-	_, err = db.GetID(1)
+	err = db.DelBook(10)
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	err = db.DelBook(10)
+	data, err = db.GetBooks()
+	if err != nil || lenght != len(data) {
+		t.Fatal(err.Error())
+	}
+	_, err = db.GetID(1)
 	if err != nil {
 		t.Fatal(err.Error())
 	}
@@ -46,6 +46,19 @@ func Test_BooksCRUD(t *testing.T) {
 	}
 	dataAuthor, err = db.GetAuthors()
 	if err != nil || lenght == len(dataAuthor) {
+		t.Fatal(err.Error())
+	}
+	dataGenres, err := db.GetGenres()
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	lenght = len(dataGenres)
+	_, err = db.NewGenre("author.Name")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	dataGenres, err = db.GetGenres()
+	if err != nil || lenght == len(dataGenres) {
 		t.Fatal(err.Error())
 	}
 }
