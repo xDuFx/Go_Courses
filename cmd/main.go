@@ -8,10 +8,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// const connStr = "postgres://postgres:123@localhost:5432/postgres"
 
 func main() {
-	db, err := repository.New("postgres://postgres:123@localhost:5432/postgres")
+	db, err := repository.New("postgres://Имя_пользователя:пароль@localhost:порт/название_БД")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
