@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-const connStr = "postgres://postgres:123@localhost:5432/postgres"
+const connStr = "postgres://Имя_пользователя:пароль@localhost:порт/название_БД"
 
 func Test_BooksCRUD(t *testing.T) {
 	db, err := New(connStr)
